@@ -165,7 +165,7 @@ package body Peterson_Gorenstein_Zierler is
          return Roots (1 .. 0);
       end if;
 
-      for X in GF_Element range 1 .. Prime_Modulo - 1 loop
+      for X in GF_Element range 1 .. GF_Element'Last loop
          if Evaluate (Locator, X) = 0 then
             Root_Count := Root_Count + 1;
             if Root_Count > Index_Type (Degree) then
