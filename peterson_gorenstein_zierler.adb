@@ -27,7 +27,7 @@ package body Peterson_Gorenstein_Zierler is
       Degree : constant Natural := Natural (Poly'Length) - 1;
    begin
       if Degree = 0 then
-         return (0 => 0);
+         return [0 => 0];
       end if;
 
       declare
@@ -126,7 +126,8 @@ package body Peterson_Gorenstein_Zierler is
          for J in 1 .. N loop
             A (I, J) := Syndromes (Syn_Base + I + J - 2);
          end loop;
-         B (I) := -Syndromes (Syn_Base + I + N - 1);
+         -- Avoid unary minus ambiguity on modular types by utilizing binary subtraction from 0
+         B (I) := 0 - Syndromes (Syn_Base + I + N - 1);
       end loop;
 
       Lambda_Coeffs := Solve_Linear_System (A, B);
@@ -152,7 +153,7 @@ package body Peterson_Gorenstein_Zierler is
       end loop;
       
       -- If loop falls through to 0 errors, the locator is exactly 1 (no roots)
-      return (0 => 1);
+      return [0 => 1];
    end Compute_Locator_Dynamic;
 
    function Chien_Search (Locator : Polynomial) return Polynomial is
@@ -183,11 +184,11 @@ package body Peterson_Gorenstein_Zierler is
 
    function Compute_Evaluator (Syndromes : Polynomial; Locator : Polynomial) return Polynomial is
       Degree   : constant Natural := Natural (Locator'Length) - 1;
-      Omega    : Polynomial (0 .. Index_Type (Degree) - 1) := (others => 0);
+      Omega    : Polynomial (0 .. Index_Type (Degree) - 1) := [others => 0];
       Syn_Base : constant Index_Type := Syndromes'First;
    begin
       if Degree = 0 then
-         return (0 => 0);
+         return [0 => 0];
       end if;
 
       for I in 0 .. Index_Type (Degree) - 1 loop
@@ -217,7 +218,7 @@ package body Peterson_Gorenstein_Zierler is
                raise Program_Error with "Derivative evaluated to zero (repeated roots)";
             end if;
             -- Y_k = - Omega(Root) / Lambda'(Root)
-            Values (I) := -Num * Inverse (Den);
+            Values (I) := (0 - Num) * Inverse (Den);
          end;
       end loop;
       return Values;
