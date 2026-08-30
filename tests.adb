@@ -138,8 +138,8 @@ begin
    Put_Line ("TEST 11 — Chien Search (No_Roots_Error Trap)");
    begin
       declare
-         -- 1 + 5x + 5x^2 has no roots in GF11
-         Discard : constant Polynomial := Chien_Search ([1, 5, 5]);
+         -- 1 + x^2 has no roots in GF11
+         Discard : constant Polynomial := Chien_Search ([1, 0, 1]);
       begin
          null;
       end;
