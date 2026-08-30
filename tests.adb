@@ -31,15 +31,14 @@ procedure Tests is
    -- Error 1: Value 5, Location 4 (inverse root 3)
    -- Error 2: Value 3, Location 2 (inverse root 6)
    -- Yields syndromes S1=4, S2=4, S3=3, S4=8 in GF(11)
-   Test_Syndromes  : constant Polynomial (1 .. 4) := (4, 4, 3, 8);
-   Expected_Loc    : constant Polynomial (0 .. 2) := (1, 5, 8);
-   Expected_Roots  : constant Polynomial (1 .. 2) := (3, 6);
-   Expected_Values : constant Polynomial (1 .. 2) := (5, 3);
+   Test_Syndromes  : constant Polynomial (1 .. 4) := [4, 4, 3, 8];
+   Expected_Loc    : constant Polynomial (0 .. 2) := [1, 5, 8];
+   Expected_Roots  : constant Polynomial (1 .. 2) := [3, 6];
    
    -- 1 error simulation: Value 5, location 3
    -- Syndromes S1=4, S2=1, S3=3, S4=9 in GF(11)
-   S_One_Error     : constant Polynomial (1 .. 4) := (4, 1, 3, 9);
-   L_One_Error     : constant Polynomial (0 .. 1) := (1, 8);
+   S_One_Error     : constant Polynomial (1 .. 4) := [4, 1, 3, 9];
+   L_One_Error     : constant Polynomial (0 .. 1) := [1, 8];
 
    -- Variables to trap exceptions
    Got_Matrix_Singular : Boolean := False;
@@ -119,12 +118,12 @@ begin
 
    Put_Line ("TEST 9 — Compute_Locator_Dynamic (0 errors actual)");
    declare
-      S_Zero  : constant Polynomial (1 .. 4) := (0, 0, 0, 0);
+      S_Zero  : constant Polynomial (1 .. 4) := [0, 0, 0, 0];
       Dyn_Loc : constant Polynomial := Compute_Locator_Dynamic (S_Zero, 2);
    begin
       Check ("9.1 Degree collapses to 0", Dyn_Loc'Length = 1);
       Check ("9.2 Returns [1]", Dyn_Loc (0) = 1);
-      Check ("9.3 Handles complete null vector", Equal (Dyn_Loc, (0 => 1)));
+      Check ("9.3 Handles complete null vector", Equal (Dyn_Loc, [0 => 1]));
    end;
 
    Put_Line ("TEST 10 — Chien Search (2 roots)");
@@ -140,7 +139,7 @@ begin
    begin
       declare
          -- 1 + 5x + 5x^2 has no roots in GF11
-         Discard : constant Polynomial := Chien_Search ((1, 5, 5));
+         Discard : constant Polynomial := Chien_Search ([1, 5, 5]);
       begin
          null;
       end;
